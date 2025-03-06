@@ -20,7 +20,6 @@ L'objectif est d'aider les entreprises à mieux comprendre les raisons du turnov
 ✔ **Régression Logistique**  
 ✔ **Arbre de Décision**  
 ✔ **Forêt Aléatoire (Random Forest)**  
-✔ **XGBoost**  
 
 ---
 
