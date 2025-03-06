@@ -1,10 +1,9 @@
 # 🔍 Prédiction du Turnover des Employés avec le Machine Learning  
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Yohannkp/Projet-Salifort-Motors)
-![GitHub last commit](https://img.shields.io/github/last-commit/Yohannkp/Projet-Salifort-Motors)
-![GitHub issues](https://img.shields.io/github/issues/Yohannkp/Projet-Salifort-Motors)
-![GitHub stars](https://img.shields.io/github/stars/Yohannkp/Projet-Salifort-Motors?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Yohannkp/Projet-Salifort-Motors?style=social)
+
+
+
+
 ![Python](https://img.shields.io/badge/Python-3.8-blue)
 ![scikit-learn](https://img.shields.io/badge/Scikit--Learn-0.24-orange)
 ![pandas](https://img.shields.io/badge/Pandas-1.3.3-yellow)
