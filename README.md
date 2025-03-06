@@ -63,3 +63,11 @@ Le modèle **Random Forest** a obtenu un **AUC de 98%**, identifiant les **facte
 1️⃣ **Cloner le repo** :  
 ```bash
 git clone https://github.com/Yohannkp/Projet-Salifort-Motors..git
+
+```
+
+2 **Installer les dépendances :** :  
+```bash
+pip install -r requirements.txt
+
+```
