@@ -11,7 +11,11 @@
 
 Ce projet explore les facteurs influençant le départ des employés en entreprise et utilise des modèles de Machine Learning pour prédire le turnover.
 
+---
 
+## 📊 Dashboard  
+![Resumé](1.png) 
+![Resumé](2.png) 
 ---
 
 ## 📊 Objectif  
