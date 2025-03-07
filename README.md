@@ -16,7 +16,9 @@ Ce projet explore les facteurs influençant le départ des employés en entrepri
 ## 📊 Dashboard  
 ![Resumé](1.png) 
 ![Resumé](2.png) 
+
 ---
+Lien direct pour le tester : https://dashboard-pr-diction-du-turnover-des.onrender.com/
 
 ## 📊 Objectif  
 L'objectif est d'aider les entreprises à mieux comprendre les raisons du turnover et à améliorer la rétention des employés grâce à une analyse de données et des modèles prédictifs.
