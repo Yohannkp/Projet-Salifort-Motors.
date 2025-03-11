@@ -65,7 +65,7 @@ if submitted:
     url = "https://projet-salifort-motors-production.up.railway.app/predict"  # Assurez-vous que FastAPI tourne sur ce port
     response = requests.post(url, json=data)
     
-    if response.status_code == 200:
+    if response.status_code == 200 or 201:
         result = response.json()
         st.success(f"**Résultat : {result['turnover_prediction']} avec une probabilité de {result['probability']}**")
         st.info(result["message"])
