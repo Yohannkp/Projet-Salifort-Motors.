@@ -33,36 +33,58 @@ def home():
 
 # Schéma des données d'entrée
 class EmployeeData(BaseModel):
-    satisfaction_level: float
     last_evaluation: float
     number_project: int
-    average_montly_hours: int
-    time_spend_company: int
+    tenure: int
     work_accident: int
     promotion_last_5years: int
-    department: int
     salary: int
+    department_IT: int
+    department_RandD: int
+    department_accounting: int
+    department_hr: int
+    department_management: int
+    department_marketing: int
+    department_product_mng: int
+    department_sales: int
+    department_support: int
+    department_technical: int
+    overworked: int
+
 
 @app.post("/predict")
 def predict_turnover(data: EmployeeData):
     # Convertir les données en tableau numpy
     input_data = np.array([[
-        data.satisfaction_level,
         data.last_evaluation,
         data.number_project,
-        data.average_montly_hours,
-        data.time_spend_company,
+        data.tenure,
         data.work_accident,
         data.promotion_last_5years,
-        data.department,
-        data.salary
+        data.salary,
+        data.department_IT,
+        data.department_RandD,
+        data.department_accounting,
+        data.department_hr,
+        data.department_management,
+        data.department_marketing,
+        data.department_product_mng,
+        data.department_sales,
+        data.department_support,
+        data.department_technical,
+        data.overworked
     ]])
+    
+    # Vérifier la taille des features envoyées
+    print("Données reçues :", data.dict())
+    print("Nombre de features envoyées :", input_data.shape[1])
     
     # Prédiction
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
     
     return {"turnover_prediction": int(prediction), "probability": round(float(probability), 4)}
+
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Railway définit dynamiquement le port

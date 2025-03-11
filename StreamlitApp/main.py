@@ -2,105 +2,95 @@ import streamlit as st
 import requests
 
 # Configuration de la page
-st.set_page_config(page_title="Prédiction du Turnover", layout="centered")
+st.set_page_config(page_title="Prédiction du Turnover", layout="wide")
 
-# Style CSS avec effet Glassmorphism
+# Style CSS personnalisé
 st.markdown(
     """
     <style>
-        body {
-            background-color: #eef2f3;
-        }
-        .main {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .stButton > button {
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .stButton > button:hover {
-            background-color: #45a049;
-        }
-        .stSlider > div > div {
-            color: #007BFF;
-        }
-        .stRadio > div {
-            display: flex;
-            justify-content: center;
-        }
-        .stSelectbox > div > div {
-            border-radius: 10px;
-        }
+        .main { background-color: #f5f7fa; }
+        div.stButton > button { width: 100%; padding: 10px; background-color: #007BFF; color: white; border-radius: 10px; }
+        div.stButton > button:hover { background-color: #0056b3; }
+        .stTextInput > div > div > input { border-radius: 10px; }
+        .stSelectbox > div > div > select { border-radius: 10px; }
+        .stSlider > div > div { color: #007BFF; }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Titre et description
-st.markdown("<h1 style='text-align: center;'>🔍 Prédiction du Turnover</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Utilisez cette application pour prédire si un employé va quitter l'entreprise.</p>", unsafe_allow_html=True)
+st.title("🔍 Prédiction du Turnover des Employés")
+st.write("**Utilisez cette application pour prédire si un employé est susceptible de quitter l'entreprise.**")
 
-# Conteneur avec effet Glassmorphism
-with st.container():
-    with st.form("employee_form"):
-        col1, col2 = st.columns(2)
+# Saisie des données de l'employé
+with st.form("employee_form"):
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        last_evaluation = st.slider("Dernière évaluation", 0.0, 1.0, 0.7)
+        number_project = st.number_input("Nombre de projets", 1, 10, 3)
+        tenure = st.number_input("Ancienneté dans l'entreprise (années)", 1, 10, 3)
+        work_accident = st.radio("A eu un accident de travail ?", ["Non", "Oui"])
+        promotion_last_5years = st.radio("Promotion dans les 5 dernières années ?", ["Non", "Oui"])
+        overworked = st.radio("Est-il surmené ?", ["Non", "Oui"])
+    
+    with col2:
+        salary = st.selectbox("Niveau de salaire", ["Faible", "Moyen", "Élevé"], index=1)
         
-        with col1:
-            last_evaluation = st.slider("Dernière évaluation", 0.0, 1.0, 0.7)
-            number_project = st.number_input("Nombre de projets", 1, 10, 3)
-            tenure = st.number_input("Années passées dans l'entreprise", 1, 20, 5)
-            work_accident = st.radio("A eu un accident de travail ?", ["Non", "Oui"])
-        
-        with col2:
-            promotion_last_5years = st.radio("A reçu une promotion ?", ["Non", "Oui"])
-            salary = st.selectbox("Niveau de salaire", ["Faible", "Moyen", "Élevé"], index=1)
-            overworked = st.radio("Est surmené ?", ["Non", "Oui"])
-            department = st.selectbox("Département", ["IT", "RandD", "accounting", "hr", "management",
-                                                       "marketing", "product_mng", "sales", "support", "technical"])
+        # Sélection du département avec encodage one-hot
+        department = st.selectbox(
+            "Département", 
+            ["IT", "RandD", "Accounting", "HR", "Management", "Marketing",
+             "Product Management", "Sales", "Support", "Technical"]
+        )
+    
+    submitted = st.form_submit_button("🔍 Prédire le Turnover")
 
-        submitted = st.form_submit_button("🔍 Prédire le Turnover")
-
-# Mapping pour les valeurs numériques
-salary_mapping = {"Faible": 0, "Moyen": 1, "Élevé": 2}
-department_list = ["IT", "RandD", "accounting", "hr", "management",
-                   "marketing", "product_mng", "sales", "support", "technical"]
+# Mapping des valeurs pour correspondre aux attentes du modèle
 work_accident = 1 if work_accident == "Oui" else 0
 promotion_last_5years = 1 if promotion_last_5years == "Oui" else 0
 overworked = 1 if overworked == "Oui" else 0
+salary_mapping = {"Faible": 0, "Moyen": 1, "Élevé": 2}
+salary = salary_mapping[salary]
 
-# Encodage one-hot du département
-department_encoding = {dept: 0 for dept in department_list}
-department_encoding[department] = 1  # Mettre à 1 le département sélectionné
+# Encodage one-hot pour le département
+department_mapping = {
+    "IT": "department_IT",
+    "RandD": "department_RandD",
+    "Accounting": "department_accounting",
+    "HR": "department_hr",
+    "Management": "department_management",
+    "Marketing": "department_marketing",
+    "Product Management": "department_product_mng",
+    "Sales": "department_sales",
+    "Support": "department_support",
+    "Technical": "department_technical"
+}
 
-# Préparation des données pour l'API
+# Initialisation des valeurs one-hot
+department_encoded = {key: 0 for key in department_mapping.values()}
+department_encoded[department_mapping[department]] = 1
+
+# Construction des données à envoyer à l'API
 data = {
     "last_evaluation": last_evaluation,
     "number_project": number_project,
     "tenure": tenure,
     "work_accident": work_accident,
     "promotion_last_5years": promotion_last_5years,
-    "salary": salary_mapping[salary],
-    "overworked": overworked
+    "salary": salary,
+    "overworked": overworked,
+    **department_encoded  # Ajout des départements encodés
 }
-data.update({f"department_{dept}": value for dept, value in department_encoding.items()})
 
 # Envoi des données à l'API et affichage des résultats
 if submitted:
-    url = "https://projet-salifort-motors-production.up.railway.app/predict"  # Met l'URL correcte de ton API
-    response = requests.post(url, json=data)
-    st.write("Réponse de l'API :", response.json())
-
+    url = "https://projet-salifort-motors-production.up.railway.app/predict"  # Vérifie que FastAPI tourne sur ce port
+    st.write("Données envoyées à l'API :", data)  # Debugging
     
-    if response.status_code == 200 or 201:
-        
+    response = requests.post(url, json=data)
+    
+    if response.status_code == 200:
         try:
             result = response.json()
             st.success(f"**Résultat : {result['turnover_prediction']} avec une probabilité de {result['probability']}**")
@@ -108,5 +98,5 @@ if submitted:
             st.error("⚠️ L'API a répondu mais la réponse n'est pas en format JSON valide.")
             st.write("Réponse brute :", response.text)
     else:
-        st.error(f"❌ Erreur {response.status_code} lors de la connexion à l'API.")
+        st.error(f"❌ Erreur {response.status_code} - Vérifie si les données envoyées sont correctes.")
         st.write("Réponse brute :", response.text)
