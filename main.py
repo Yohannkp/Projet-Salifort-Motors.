@@ -16,6 +16,12 @@ if not os.path.exists(model_path):
 with open(model_path, "rb") as file:
     model = pickle.load(file)
 
+# print("Nombre de features attendus :", model.n_features_in_)
+# # Vérifier si le modèle a stocké les noms des features
+# if hasattr(model, "feature_names_in_"):
+#     print("Features attendues :", model.feature_names_in_)
+# else:
+#     print("Le modèle n'a pas stocké les noms des features.")
 
 # Définition de l'API FastAPI
 app = FastAPI(title="Turnover Prediction API", description="Prédit si un employé va quitter l'entreprise", version="1.0")
