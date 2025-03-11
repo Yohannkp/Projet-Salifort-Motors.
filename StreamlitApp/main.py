@@ -93,7 +93,17 @@ if submitted:
     if response.status_code == 200:
         try:
             result = response.json()
-            st.success(f"**Résultat : {result['turnover_prediction']} avec une probabilité de {result['probability']}**")
+            
+            # Interprétation de la prédiction
+            prediction_text = "L'employé va rester dans l'entreprise" if result["turnover_prediction"] == 0 else "⚠️ L'employé risque de partir !"
+            probability = result["probability"]
+
+            # Affichage du résultat avec une barre de progression
+            st.success(f"**Résultat : {prediction_text}**")
+            st.progress(int(probability * 100))  # Convertir en pourcentage
+            
+            st.write(f"📊 **Probabilité : {probability * 100:.2f}%**")
+            
         except requests.exceptions.JSONDecodeError:
             st.error("⚠️ L'API a répondu mais la réponse n'est pas en format JSON valide.")
             st.write("Réponse brute :", response.text)
