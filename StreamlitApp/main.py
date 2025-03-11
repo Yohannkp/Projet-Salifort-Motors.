@@ -96,8 +96,11 @@ data.update({f"department_{dept}": value for dept, value in department_encoding.
 if submitted:
     url = "https://projet-salifort-motors-production.up.railway.app/predict"  # Met l'URL correcte de ton API
     response = requests.post(url, json=data)
+    st.write("Réponse de l'API :", response.json())
+
     
     if response.status_code == 200 or 201:
+        
         try:
             result = response.json()
             st.success(f"**Résultat : {result['turnover_prediction']} avec une probabilité de {result['probability']}**")
