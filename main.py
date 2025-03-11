@@ -3,10 +3,19 @@ import pickle
 import numpy as np
 from pydantic import BaseModel
 import uvicorn
+import os
 
 # Charger le modèle entraîné
-with open("hr_rf2.pickle", "rb") as file:
+# with open("hr_rf2.pickle", "rb") as file:
+#     model = pickle.load(file)  
+model_path = os.path.join(os.path.dirname(__file__), "hr_rf2.pickle")
+
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Le fichier {model_path} est introuvable sur Railway !")
+
+with open(model_path, "rb") as file:
     model = pickle.load(file)
+
 
 # Définition de l'API FastAPI
 app = FastAPI(title="Turnover Prediction API", description="Prédit si un employé va quitter l'entreprise", version="1.0")
@@ -50,4 +59,5 @@ def predict_turnover(data: EmployeeData):
     return {"turnover_prediction": int(prediction), "probability": round(float(probability), 4)}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    port = int(os.getenv("PORT", 8000))  # Railway définit dynamiquement le port
+    uvicorn.run(app, host="0.0.0.0", port=port)
