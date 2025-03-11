@@ -102,7 +102,7 @@ if submitted:
             st.success(f"**Résultat : {prediction_text}**")
             st.progress(int(probability * 100))  # Convertir en pourcentage
             
-            st.write(f"📊 **Probabilité : {probability * 100:.2f}%**")
+            st.write(f"📊 **Probabilité de départ : {probability * 100:.2f}%**")
             
         except requests.exceptions.JSONDecodeError:
             st.error("⚠️ L'API a répondu mais la réponse n'est pas en format JSON valide.")
