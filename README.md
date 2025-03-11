@@ -18,7 +18,12 @@ Ce projet explore les facteurs influençant le départ des employés en entrepri
 ![Resumé](2.png) 
 
 ---
-Lien direct pour le tester : https://dashboard-pr-diction-du-turnover-des.onrender.com/
+Lien du Dashboard : https://dashboard-pr-diction-du-turnover-des.onrender.com/
+
+Lien de l'API : https://projet-salifort-motors-production.up.railway.app
+
+Lien de l'application :https://projet-salifort-motors-app.streamlit.app/ 
+
 
 ## 📊 Objectif  
 L'objectif est d'aider les entreprises à mieux comprendre les raisons du turnover et à améliorer la rétention des employés grâce à une analyse de données et des modèles prédictifs.
