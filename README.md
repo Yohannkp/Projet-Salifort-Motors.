@@ -15,12 +15,11 @@ Mes objectifs étaient :
 - Et de formuler **des recommandations concrètes**
 
 ---
-## 📊 Dashboard  
-![Resumé](1.png) 
-![Resumé](2.png) 
+
+![Resumé](dashboard.png) 
 
 ---
-Lien du Dashboard : https://dashboard-pr-diction-du-turnover-des.onrender.com/
+Lien du Dashboard : https://testipformation-my.sharepoint.com/:x:/g/personal/ay_aharh_ecole-ipssi_net/EfwJcqtEKVpHoPSchwsd0GwBeadN9_Iv-fsBt-MFKFR_8w?e=5EMcOd
 
 Lien de l'API : https://projet-salifort-motors-production.up.railway.app
 
