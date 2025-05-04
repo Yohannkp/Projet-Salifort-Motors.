@@ -1,18 +1,20 @@
-# 🔍 Prédiction du Turnover des Employés avec le Machine Learning  
+# 🔍 Prédiction de l’attrition des employés chez Salifort Motors
 
-
-
-
-
-![Python](https://img.shields.io/badge/Python-3.8-blue)
-![scikit-learn](https://img.shields.io/badge/Scikit--Learn-0.24-orange)
-![pandas](https://img.shields.io/badge/Pandas-1.3.3-yellow)
-![matplotlib](https://img.shields.io/badge/Matplotlib-3.4-green)
-
-Ce projet explore les facteurs influençant le départ des employés en entreprise et utilise des modèles de Machine Learning pour prédire le turnover.
+Projet de data science visant à prédire les départs d’employés dans une grande entreprise de conseil, à partir de données RH internes. Ce projet a été réalisé dans le cadre du capstone final du programme Data Analyst (IBM x Coursera).
 
 ---
 
+## 🎯 Objectif
+
+Le département RH souhaite comprendre pourquoi certains employés quittent l’entreprise et agir de manière préventive.  
+Mes objectifs étaient :
+
+- D’**analyser** les données collectées
+- D’**identifier** les facteurs déterminants du départ
+- De **construire un modèle prédictif fiable**
+- Et de formuler **des recommandations concrètes**
+
+---
 ## 📊 Dashboard  
 ![Resumé](1.png) 
 ![Resumé](2.png) 
@@ -24,61 +26,134 @@ Lien de l'API : https://projet-salifort-motors-production.up.railway.app
 
 Lien de l'application :https://projet-salifort-motors-app.streamlit.app/ 
 
+---
 
-## 📊 Objectif  
-L'objectif est d'aider les entreprises à mieux comprendre les raisons du turnover et à améliorer la rétention des employés grâce à une analyse de données et des modèles prédictifs.
+## 📊 Données utilisées
+
+- Données internes anonymisées de 14 999 employés
+- 10 variables initiales :
+  - Taux de satisfaction
+  - Évaluation annuelle
+  - Nombre de projets
+  - Heures de travail mensuelles
+  - Ancienneté (`tenure`)
+  - Accident de travail
+  - Promotion (5 dernières années)
+  - Département
+  - Niveau de salaire
+  - État de départ (`left`)
+
+🔧 **Prétraitement :**
+- Nettoyage des doublons (20%)
+- Normalisation des noms de colonnes
+- Encodage (`salary` ordinal, `department` one-hot)
+- Suppression des outliers sur `tenure`
+- Création d’une nouvelle variable `overworked` (> 175 h/mois)
 
 ---
 
-## 📝 Données  
-- **Dataset utilisé** : HR Employee Attrition Dataset  
-- **Source** : Disponible dans le même dossier
-- **Variables clés** : Satisfaction au travail, nombre de projets, heures travaillées par mois, ancienneté, salaire, etc.
+## 🧪 Modèles construits
+
+### Modélisation supervisée :
+
+| Modèle                    | Données complètes (v1) | Données sans satisfaction (v2) |
+|---------------------------|------------------------|---------------------------------|
+| Régression logistique     | ✅                     | ❌                              |
+| Arbre de décision         | ✅                     | ✅                              |
+| Forêt aléatoire           | ✅                     | ✅                              |
 
 ---
 
-## 🚀 Modèles Testés  
-✔ **Régression Logistique**  
-✔ **Arbre de Décision**  
-✔ **Forêt Aléatoire (Random Forest)**  
+## 📈 Résultats
+
+### 🔎 Résumé des performances sur jeu de test :
+
+| Modèle                   | Précision | Rappel | F1-score | Accuracy | AUC     |
+|--------------------------|-----------|--------|----------|----------|---------|
+| Régression logistique    | 0.80      | 0.83   | 0.80     | 0.83     | 0.84    |
+| Arbre de décision (v2)   | 0.87      | 0.90   | 0.89     | 0.96     | 0.94    |
+| Forêt aléatoire (v2)     | **0.87**  | **0.90** | **0.89** | **0.96** | **0.94** |
+
+✅ Le modèle final est une **forêt aléatoire** entraînée sur des données sans fuite potentielle (`satisfaction_level` exclu). Il est **robuste, fiable et généralisable**.
 
 ---
 
-## 📈 Résultats  
-Le modèle **Random Forest** a obtenu un **AUC de 98%**, identifiant les **facteurs clés du départ des employés** :  
+## 🖼️ Illustrations
 
-🔹 **Surcharge de travail** (trop de projets)  
-🔹 **Ancienneté de 4 ans** associée à une baisse de motivation  
-🔹 **Évaluation de performance élevée liée à des heures excessives (>200h/mois)**  
+### 📊 Analyse exploratoire
+
+- **Distribution des départs par satisfaction**  
+  ![alt text](image.png)
+
+- **Boxplot : heures travaillées vs nombre de projets**  
+  ![alt text](image-1.png)
+
+- **Heures mensuelles vs évaluation annuelle**  
+  ![alt text](image-2.png)
+
+- **Tenure vs Salary**  
+  ![alt text](image-4.png)
 
 ---
 
-## 🎯 Recommandations Business  
-📌 **Limiter le nombre de projets** par employé pour éviter la surcharge de travail.  
-📌 **Étudier pourquoi les employés de 4 ans d'ancienneté** sont insatisfaits.  
-📌 **Revoir les politiques de rémunération des heures supplémentaires** et s'assurer que les employés les connaissent.  
-📌 **Clarifier les attentes en matière de charge de travail et de congés.**  
-📌 **Revoir le système d'évaluation** pour ne pas uniquement récompenser les employés travaillant 200+ heures/mois.  
+### 🌳 Visualisation des modèles
+
+- **Matrice de confusion – Random Forest v2**  
+  ![alt text](image-5.png)
+
+- **Arbre de décision simplifié (splits)**  
+  ![alt text](image-6.png)
+
+- **Importance des variables – Arbre de décision**  
+  ![alt text](image-8.png)
+
+- **Importance des variables – Forêt aléatoire**  
+  ![alt text](image-7.png)
 
 ---
 
-## 📸 Visualisations  
-### 🔥 Résultat  
+## 💡 Recommandations métier
+
+1. **Limiter la surcharge de travail**
+   - Réduire les heures > 200/mois
+   - Éviter > 5 projets actifs par employé
+2. **Valoriser les anciens**
+   - Prime/promotion après 4 ans d’ancienneté
+3. **Récompenser l’effort**
+   - Système d’évaluation plus équitable, non basé uniquement sur la charge
+4. **Clarifier les règles RH**
+   - Heures supplémentaires, reconnaissance, congés
+5. **Renforcer la culture d’entreprise**
+   - Ateliers, sondages, feedback anonymes
+
+---
+
+## 🧠 Interprétabilité & éthique
+
+- Le modèle utilise des données disponibles en interne
+- La variable `overworked` a été introduite pour limiter la dépendance à des variables sensibles (`satisfaction`)
+- Pas de donnée personnelle, pas de décision automatisée : l'outil est **décisionnel**, pas **exécutif**
+
+
+---
+
+### 🔥 Résumé  
 ![Resumé](Résultat.png)  
 
+---
+## 📌 Ressources
+
+- [Scikit-learn](https://scikit-learn.org/)
+- [XGBoost](https://xgboost.readthedocs.io/)
+- [Seaborn](https://seaborn.pydata.org/)
+- [Coursera IBM Data Analyst Capstone](https://www.coursera.org/)
 
 ---
 
-## 🔧 Installation  
+## 👨‍💻 Auteur
 
-1️⃣ **Cloner le repo** :  
-```bash
-git clone https://github.com/Yohannkp/Projet-Salifort-Motors..git
+**Yendi Yohann**  
+📧 [yendiyohann@gmail.com]  
+📍 Projet réalisé dans le cadre du certificat IBM Data Analyst — Coursera
 
-```
-
-2 **Installer les dépendances :** :  
-```bash
-pip install -r requirements.txt
-
-```
+---
