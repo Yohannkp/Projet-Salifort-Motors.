@@ -85,7 +85,7 @@ data = {
 
 # Envoi des données à l'API et affichage des résultats
 if submitted:
-    url = "https://projet-salifort-motors-production.up.railway.app/predict"  # Vérifie que FastAPI tourne sur ce port
+    url = "https://projet-salifort-motors.onrender.com/predict"  # Vérifie que FastAPI tourne sur ce port
     st.write("Données envoyées à l'API :", data)  # Debugging
     
     response = requests.post(url, json=data)
