@@ -16,7 +16,7 @@ Mes objectifs étaient :
 
 ---
 
-![Resumé](dashboard.png) 
+![Resumé](PowerBIdashboard.png) 
 
 ---
 Lien du Dashboard : https://app.powerbi.com/groups/me/reports/b183b9be-a9f1-43d1-82a3-b4e6f0c88b3a?pbi_source=desktop
